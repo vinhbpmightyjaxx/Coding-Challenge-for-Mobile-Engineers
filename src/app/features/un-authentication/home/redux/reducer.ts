@@ -27,7 +27,6 @@ const getImageSlice = createSlice({
     },
     onStart: state => {
       state.showRefresh = true;
-      state.data = [];
     },
     onSuccess: (state, { payload }: PayloadAction<any>) => {
       state.data = payload;
