@@ -1,0 +1,8 @@
+APP_ENV=Dev
+API_URL=https://api.unsplash.com/
+APP_DISPLAY_NAME=boilerplateRn-Dev
+APP_PLACEHOLDER_NAME=boilerplateRn
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+BUNDLE_IDENTIFIER=com.boilerplatern
+DEFAULT_FALLBACK_LNG_I18n=en
