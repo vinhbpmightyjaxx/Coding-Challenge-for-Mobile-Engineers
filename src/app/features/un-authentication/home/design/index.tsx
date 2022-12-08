@@ -14,22 +14,24 @@ import { styles } from './style';
 
 import { actions } from '../redux/reducer';
 
+/**
+ * UI inspired by Pinterest
+ */
 const LoginComponent = () => {
   // state
   const [page, setPage] = useState(1);
 
   // function
   useEffect(() => {
-    dispatch(actions.onLogin(page, 10));
-    // Alert.alert(JSON.stringify(data));
+    dispatch(actions.onGetImage(page, 10));
   }, [page]);
 
+  // function call when user reached bottom
   const onLoadMore = useCallback(() => {
     setPage(prev => prev + 1);
   }, []);
 
   const renderItem = ({ item }: { item: MainUnsplashModel }) => {
-    console.log('id: ', item.id);
     return (
       <Fragment key={item.id}>
         <Item item={item} />
@@ -37,21 +39,18 @@ const LoginComponent = () => {
     );
   };
 
-  const dataLogin = useSelector(x => x.login);
+  const { data, showRefresh } = useSelector(x => x.getImage);
   // render
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         onEndReached={() => onLoadMore()}
         onEndReachedThreshold={0.01}
-        refreshing={false}
-        onRefresh={() => dispatch(actions.onLogin(1, 10))}
-        columnWrapperStyle={{
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
+        refreshing={showRefresh}
+        onRefresh={() => dispatch(actions.onGetImage(1, 10))}
+        columnWrapperStyle={styles.columnWrapperStyle}
         numColumns={2}
-        data={dataLogin.data}
+        data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

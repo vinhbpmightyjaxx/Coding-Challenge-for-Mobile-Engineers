@@ -8,33 +8,50 @@ import { styles } from './style';
 const Item = ({ item }: { item: MainUnsplashModel }) => {
   return (
     <View style={styles.item}>
-      <Image
-        source={{ uri: item.urls.regular }}
-        style={{ width: '100%', aspectRatio: 0.5, borderRadius: 10 }}
-      />
-      {/* <Text style={{ position: 'absolute', top: 15 }}>{item.likes}</Text> */}
-      <Text style={{ fontSize: 14, fontWeight: '600', marginTop: 15 }}>
-        {item.description}
-      </Text>
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: 15,
-        }}>
-        <Image
-          source={{ uri: item.user.profile_image.medium }}
-          style={{
-            width: 50,
-            aspectRatio: 1,
-            borderRadius: 25,
-            marginRight: 5,
-          }}
-        />
-        <Text>
-          {item.user.last_name} {item.user.first_name}
-        </Text>
-      </View> */}
+      <Image source={{ uri: item.urls.regular }} style={styles.imageStyles} />
+      {(() => {
+        if (item.description === '' || item.description == null) {
+          return (
+            <>
+              <View style={styles.userInfoWrapperStyles}>
+                <Image
+                  source={{ uri: item.user.profile_image.medium }}
+                  style={styles.avatarUserStyles}
+                />
+                <View style={styles.usernameWrapper}>
+                  <Text>
+                    {item.user.last_name} {item.user.first_name}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.likeWrapper}>
+                <Image
+                  source={require('../../../../assets/icon/source/love.png')}
+                  style={styles.likeIconStyles}
+                />
+                <Text>{item.likes}</Text>
+              </View>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <Text style={styles.descriptionStyles}>{item.description}</Text>
+              <View style={styles.userInfoWrapperStyles}>
+                <Image
+                  source={{ uri: item.user.profile_image.medium }}
+                  style={styles.avatarUserStyles}
+                />
+                <View style={styles.usernameWrapper}>
+                  <Text>
+                    {item.user.last_name} {item.user.first_name}
+                  </Text>
+                </View>
+              </View>
+            </>
+          );
+        }
+      })()}
     </View>
   );
 };

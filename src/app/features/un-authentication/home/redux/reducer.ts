@@ -4,46 +4,48 @@ import { MainUnsplashModel } from '@model/photos';
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import * as Action from './actionType';
-export interface LoginState {
+export interface ImageState {
   loading: boolean;
-  showDialog: false;
+  showDialog: boolean;
+  showRefresh: boolean;
   count: number;
   data: MainUnsplashModel[] | [];
 }
-const initialState: LoginState = {
+const initialState: ImageState = {
   loading: false,
   showDialog: false,
+  showRefresh: false,
   count: 0,
   data: [],
 };
-const loginSlice = createSlice({
-  name: SLICE_NAME.LOGIN,
+const getImageSlice = createSlice({
+  name: SLICE_NAME.GET_IMAGE,
   initialState: initialState,
   reducers: {
     reset: () => {
       return { ...initialState };
     },
-    onStart: () => {
-      /// TODO
+    onStart: state => {
+      state.showRefresh = true;
+      state.data = [];
     },
     onSuccess: (state, { payload }: PayloadAction<any>) => {
-      /// TODO
       state.data = payload;
-      state.showDialog = false;
+      state.showRefresh = false;
       return state;
     },
     onLoadMore: (state, { payload }: PayloadAction<any>) => {
       state.data = [...state.data, ...payload];
-      state.showDialog = false;
+      state.showRefresh = false;
       return state;
     },
   },
 });
-const onLogin = createAction(
-  Action.LOGIN,
+const onGetImage = createAction(
+  Action.GET_IMAGE,
   (page: number, per_page: number) => ({
     payload: { page, per_page },
   }),
 );
-export const actions = { ...loginSlice.actions, onLogin };
-export const loginReducer = loginSlice.reducer;
+export const actions = { ...getImageSlice.actions, onGetImage };
+export const imageReducer = getImageSlice.reducer;
